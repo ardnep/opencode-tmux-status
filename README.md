@@ -81,17 +81,3 @@ npm test
 ## License
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
-
-## Publishing
-
-Releases are also published to GitHub Packages by the **Publish to GitHub Packages** workflow. It runs when a GitHub release is published, or manually with an existing release tag such as `v1.0.0`.
-
-The workflow uses `GITHUB_TOKEN`; no personal token is stored in the repo. New GitHub packages are private by default. Package visibility can be changed in the package settings.
-
-npm publishing is separate:
-
-```sh
-npm publish --access public
-```
-
-Use npm for the OpenCode setup above. Installing from GitHub Packages requires GitHub authentication and registry configuration, even for public packages.
