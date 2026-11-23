@@ -1,8 +1,6 @@
 # opencode-tmux-status
 
-If you leave OpenCode running in another tmux window, this gives you a way to check on it at a glance.
-
-A small icon shows whether it's working, waiting for you, or done. Your window names stay as they are.
+Status indicators for OpenCode sessions running within tmux. Shows whether a session is working, waiting for input, or done, right in your tmux window list.
 
 ## Setup
 
