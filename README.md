@@ -1,10 +1,10 @@
 # opencode-tmux-status
 
-Status indicators for OpenCode sessions running within tmux. Shows whether a session is working, waiting for input, or done, right in your tmux window list.
+Status indicators for OpenCode sessions running within tmux. Shows whether a session is working, waiting for input, or done in the tmux window list.
 
 ## Setup
 
-You'll need OpenCode V2, tmux, and a Nerd Font with Material Design icons.
+Requires OpenCode V2, tmux, and a Nerd Font with Material Design icons.
 
 Clone the repo into your OpenCode plugins folder:
 
@@ -13,7 +13,7 @@ git clone https://github.com/ardnep/opencode-tmux-status.git \
   ~/.config/opencode/plugins/tmux-status
 ```
 
-OpenCode picks it up from there. Just make sure you're running OpenCode inside tmux.
+OpenCode loads the plugin from this folder. The plugin only runs inside tmux.
 
 If you use Catppuccin, add these lines to your tmux config before the theme loads:
 
@@ -22,11 +22,11 @@ set -g @catppuccin_window_number '#{?@opencode_status,#{@opencode_status},}'
 set -g @catppuccin_window_current_number '#{?@opencode_status,#{@opencode_status},}'
 ```
 
-These put the icon where the window number would be. When there's no status to show, you'll see a terminal icon instead.
+This replaces the window number with the status icon. A terminal icon is shown when no status is set.
 
-Using a different theme? The plugin sets a tmux option called `@opencode_status`. You can use the same `#{?...}` expression in your theme's window status format.
+For other themes, use the same `#{?...}` expression in the window status format. It reads the pane-level tmux option `@opencode_status`.
 
-Reload your tmux config once you've made the change.
+Reload your tmux config after editing it.
 
 ## Supported icons
 
@@ -47,7 +47,7 @@ Run the preview from the repo folder inside tmux. It requires Node.js and doesn'
 node preview.js working
 ```
 
-You can swap `working` for `input`, `retry`, `done`, `failed`, `stopped`, or `idle`.
+Other preview states: `input`, `retry`, `done`, `failed`, `stopped`, and `idle`.
 
 Press Ctrl+C to stop the preview, then clear the icon:
 
@@ -55,7 +55,7 @@ Press Ctrl+C to stop the preview, then clear the icon:
 tmux set-option -pu @opencode_status
 ```
 
-That command also helps if an icon gets stuck after OpenCode is forcibly killed. The plugin clears it on normal cleanup.
+Use the same command to clear a stale icon after a forced exit. The plugin clears it automatically on normal cleanup.
 
 To run the tests:
 
