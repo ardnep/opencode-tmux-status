@@ -6,27 +6,39 @@ Status indicators for OpenCode sessions running within tmux. Shows whether a ses
 
 Requires OpenCode V2, tmux, and a Nerd Font with Material Design icons.
 
-Clone the repo into your OpenCode plugins folder:
+1. **Install the plugin**
 
-```sh
-git clone https://github.com/ardnep/opencode-tmux-status.git \
-  ~/.config/opencode/plugins/tmux-status
-```
+   Clone the repo into your OpenCode plugins folder:
 
-OpenCode loads the plugin from this folder. The plugin only runs inside tmux.
+   ```sh
+   git clone https://github.com/ardnep/opencode-tmux-status.git \
+     ~/.config/opencode/plugins/tmux-status
+   ```
 
-If you use Catppuccin, add these lines to your tmux config before the theme loads:
+   OpenCode loads the plugin from this folder. The plugin only runs inside tmux.
 
-```tmux
-set -g @catppuccin_window_number '#{?@opencode_status,#{@opencode_status},}'
-set -g @catppuccin_window_current_number '#{?@opencode_status,#{@opencode_status},}'
-```
+2. **Configure the tmux status bar**
 
-This replaces the window number with the status icon. A terminal icon is shown when no status is set.
+   For Catppuccin, add these lines to your tmux config before the theme loads:
 
-For other themes, use the same `#{?...}` expression in the window status format. It reads the pane-level tmux option `@opencode_status`.
+   ```tmux
+   set -g @catppuccin_window_number '#{?@opencode_status,#{@opencode_status},}'
+   set -g @catppuccin_window_current_number '#{?@opencode_status,#{@opencode_status},}'
+   ```
 
-Reload your tmux config after editing it.
+   This replaces the window number with the status icon. A terminal icon is shown when no status is set.
+
+   For other themes, use the same `#{?...}` expression in the window status format. It reads the pane-level tmux option `@opencode_status`.
+
+3. **Reload the tmux config**
+
+   For a config at `~/.config/tmux/tmux.conf`:
+
+   ```sh
+   tmux source-file ~/.config/tmux/tmux.conf
+   ```
+
+   Use your config's path if it differs.
 
 ## Supported icons
 
