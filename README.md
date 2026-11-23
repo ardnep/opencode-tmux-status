@@ -28,11 +28,16 @@ Using a different theme? The plugin sets a tmux option called `@opencode_status`
 
 Reload your tmux config once you've made the change.
 
-## Reading the icons
+## Supported icons
 
-The hourglass animates while OpenCode is working. A question mark means it needs an answer or permission from you. There are also icons for done, retrying, failed, and stopped. When OpenCode is idle or you're on its home screen, the indicator clears.
+- 󰞌 󰔟 󱦟 󰚭 — Working (animated)
+- 󰋖 — Waiting for input or permission
+- 󰑐 — Retrying
+- 󰝥 — Done
+- 󱎘 — Failed
+- 󰏤 — Stopped
 
-It checks the session you're viewing every 450 ms. If you have several panes in a window, the window icon normally follows the active pane—not every agent running in that window.
+The indicator clears when OpenCode is idle or on its home screen.
 
 ## Try it out
 
