@@ -1,59 +1,61 @@
 # opencode-tmux-status
 
-See what OpenCode is doing without switching to its tmux window.
+If you leave OpenCode running in another tmux window, this gives you a way to check on it at a glance.
 
-This OpenCode V2 TUI plugin puts a small status icon in a pane-level tmux option, `@opencode_status`. Your tmux theme decides where to show it. It doesn't rename your windows.
+A small icon shows whether it's working, waiting for you, or done. Your window names stay as they are.
 
-## What you'll see
+## Setup
 
-- An animated hourglass while the agent works.
-- A question mark when it needs input or permission.
-- Separate icons for retrying, finishing, failing, and stopping.
-- No icon when idle or outside a session.
+You'll need OpenCode V2, tmux, and a Nerd Font with Material Design icons.
 
-You'll need tmux, OpenCode V2, and a Nerd Font that includes Material Design icons. Node.js is also needed for the tests and preview script.
-
-## Set it up
-
-Clone it into OpenCode's global plugin directory:
+Clone the repo into your OpenCode plugins folder:
 
 ```sh
 git clone https://github.com/ardnep/opencode-tmux-status.git \
   ~/.config/opencode/plugins/tmux-status
 ```
 
-OpenCode discovers the plugin there. Run OpenCode inside tmux; outside tmux, the plugin does nothing.
+OpenCode picks it up from there. Just make sure you're running OpenCode inside tmux.
 
-Next, tell tmux where to display the icon. For Catppuccin, put these lines before the theme loads:
+If you use Catppuccin, add these lines to your tmux config before the theme loads:
 
 ```tmux
 set -g @catppuccin_window_number '#{?@opencode_status,#{@opencode_status},}'
 set -g @catppuccin_window_current_number '#{?@opencode_status,#{@opencode_status},}'
 ```
 
-This replaces the window number with the status icon, falling back to a terminal icon. With another theme, use the same format expression in its window status format.
+These put the icon where the window number would be. When there's no status to show, you'll see a terminal icon instead.
 
-Reload your tmux config after editing it.
+Using a different theme? The plugin sets a tmux option called `@opencode_status`. You can use the same `#{?...}` expression in your theme's window status format.
 
-## How it works
+Reload your tmux config once you've made the change.
 
-Every 450 ms, the plugin checks the session currently shown in that OpenCode TUI. Pending prompts take priority over other states. It writes only changed icons and refreshes tmux's status bar.
+## Reading the icons
 
-The value belongs to the pane, so a window's status normally reflects its active pane. This isn't an aggregate of every agent or session. On normal plugin cleanup, the icon is cleared; a forced process kill can leave a stale value.
+The hourglass animates while OpenCode is working. A question mark means it needs an answer or permission from you. There are also icons for done, retrying, failed, and stopped. When OpenCode is idle or you're on its home screen, the indicator clears.
 
-## Try it or run the tests
+It checks the session you're viewing every 450 ms. If you have several panes in a window, the window icon normally follows the active pane—not every agent running in that window.
 
-From the cloned directory:
+## Try it out
+
+Want to see the animation without starting an agent? Run this from the repo folder, inside tmux. You'll need Node.js:
 
 ```sh
-npm test
-
-# Inside tmux: preview the animation without running an agent.
 node preview.js working
 ```
 
-Other preview states: `input`, `retry`, `done`, `failed`, `stopped`, and `idle`. Stop the preview with Ctrl+C, then clear its icon:
+You can swap `working` for `input`, `retry`, `done`, `failed`, `stopped`, or `idle`.
+
+Press Ctrl+C to stop the preview, then clear the icon:
 
 ```sh
 tmux set-option -pu @opencode_status
+```
+
+That command also helps if an icon gets stuck after OpenCode is forcibly killed. The plugin clears it on normal cleanup.
+
+To run the tests:
+
+```sh
+npm test
 ```
