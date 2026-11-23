@@ -39,9 +39,9 @@ Reload your tmux config once you've made the change.
 
 The indicator clears when OpenCode is idle or on its home screen.
 
-## Try it out
+## Preview and tests
 
-Want to see the animation without starting an agent? Run this from the repo folder, inside tmux. You'll need Node.js:
+Run the preview from the repo folder inside tmux. It requires Node.js and doesn't start an agent:
 
 ```sh
 node preview.js working
