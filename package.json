@@ -1,0 +1,7 @@
+{
+  "name": "opencode-tmux-status",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { "./tui": "./tui.js" },
+  "scripts": { "test": "node --test status.test.js" }
+}
