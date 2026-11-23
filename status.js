@@ -32,34 +32,16 @@ export function indicator(state, frame = 0) {
   }[state] ?? ""
 }
 
-export function sessionTitle(context) {
-  if (context.options?.sessionTitle !== true) return undefined
-  const route = context.ui.router.current()
-  if (route.type !== "session") return ""
-  // Keep titles on one line and prevent tmux style/format injection.
-  return (context.data.session.get(route.sessionID)?.title ?? "")
-    .replace(/[\u0000-\u001f\u007f-\u009f]/g, " ")
-    .replace(/#/g, "＃")
-    .trim()
-}
-
 export function createWriter(run, pane) {
   let queue = Promise.resolve()
   let previous
-  let previousTitle
-  return (text, title) => {
-    if (text === previous && title === previousTitle) return queue
-    const statusChanged = text !== previous
-    const titleChanged = title !== previousTitle
+  return (text) => {
+    if (text === previous) return queue
     previous = text
-    previousTitle = title
     queue = queue.then(async () => {
-      if (statusChanged) await run(["set-option", "-p", "-t", pane, "@opencode_status", text])
-      if (titleChanged && title !== undefined) {
-        await run(["set-option", "-p", "-t", pane, "@opencode_title", title])
-      }
+      await run(["set-option", "-p", "-t", pane, "@opencode_status", text])
       await run(["refresh-client", "-S"])
-    }).catch(() => { previous = undefined; previousTitle = undefined })
+    }).catch(() => { previous = undefined })
     return queue
   }
 }

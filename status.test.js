@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Aaradh Nepal
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { createWriter, indicator, sessionState, sessionTitle } from "./status.js"
+import { createWriter, indicator, sessionState } from "./status.js"
 
 function context({ type = "idle", outcome, permissions = [], forms = [], route } = {}) {
   return {
@@ -68,37 +68,4 @@ test("failed tmux writes can retry without an unhandled rejection", async () => 
   await write("✓ done")
   await write("✓ done")
   assert.equal(attempts, 3)
-})
-
-test("session titles are opt-in and follow the current session", () => {
-  const ctx = context()
-  ctx.data.session.get = (id) => ({ title: id === "ses_test" ? "First title" : "Second title" })
-  assert.equal(sessionTitle(ctx), undefined)
-  ctx.options = { sessionTitle: false }
-  assert.equal(sessionTitle(ctx), undefined)
-  ctx.options.sessionTitle = true
-  assert.equal(sessionTitle(ctx), "First title")
-  ctx.data.session.get = () => ({ title: "Renamed\n#[fg=red] #{pane_id}" })
-  assert.equal(sessionTitle(ctx), "Renamed ＃[fg=red] ＃{pane_id}")
-  ctx.ui.router.current = () => ({ type: "session", sessionID: "ses_other" })
-  ctx.data.session.get = (id) => ({ title: id })
-  assert.equal(sessionTitle(ctx), "ses_other")
-  ctx.data.session.get = () => undefined
-  assert.equal(sessionTitle(ctx), "")
-  ctx.ui.router.current = () => ({ type: "home" })
-  assert.equal(sessionTitle(ctx), "")
-})
-
-test("title changes are written independently of animation and cleared on exit", async () => {
-  const calls = []
-  const write = createWriter(async (args) => { calls.push(args) }, "%123")
-  await write("done", "First title")
-  await write("done", "First title")
-  await write("done", "Renamed")
-  await write("working", "Renamed")
-  await write("", "")
-  assert.deepEqual(calls.filter((args) => args.includes("@opencode_title")).map((args) => args.at(-1)),
-    ["First title", "Renamed", ""])
-  assert.deepEqual(calls.filter((args) => args.includes("@opencode_status")).map((args) => args.at(-1)),
-    ["done", "working", ""])
 })
