@@ -8,14 +8,17 @@ Requires OpenCode V2, tmux, and a Nerd Font with Material Design icons.
 
 1. **Install the plugin**
 
-   Clone the repo into your OpenCode plugins folder:
+   Add the package to `plugins` in `~/.config/opencode/cli.json`, keeping any existing entries:
 
-   ```sh
-   git clone https://github.com/ardnep/opencode-tmux-status.git \
-     ~/.config/opencode/plugins/tmux-status
+   ```json
+   {
+     "plugins": ["@ardnep/opencode-tmux-status"]
+   }
    ```
 
-   OpenCode loads the plugin from this folder. The plugin only runs inside tmux.
+   OpenCode installs and loads the package. The plugin only runs inside tmux.
+
+   For local development, clone the repo into `~/.config/opencode/plugins/tmux-status` instead. Use one method, not both.
 
 2. **Configure the tmux status bar**
 
@@ -74,3 +77,7 @@ To run the tests:
 ```sh
 npm test
 ```
+
+## License
+
+GPL-3.0-or-later. See [LICENSE](LICENSE).

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Aaradh Nepal
 // Visual-only tmux previews; no OpenCode sessions or agent requests are created.
 import { execFile } from "node:child_process"
 import { promisify } from "node:util"

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Aaradh Nepal
 export function sessionState(context) {
   const route = context.ui.router.current()
   if (route.type !== "session") return ""

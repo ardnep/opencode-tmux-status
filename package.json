@@ -1,7 +1,25 @@
 {
-  "name": "opencode-tmux-status",
+  "name": "@ardnep/opencode-tmux-status",
   "version": "1.0.0",
   "type": "module",
+  "description": "Status indicators for OpenCode sessions running within tmux.",
+  "license": "GPL-3.0-or-later",
+  "author": "Aaradh Nepal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ardnep/opencode-tmux-status.git"
+  },
+  "homepage": "https://github.com/ardnep/opencode-tmux-status#readme",
+  "bugs": {
+    "url": "https://github.com/ardnep/opencode-tmux-status/issues"
+  },
+  "keywords": ["opencode", "opencode-plugin", "tmux", "status"],
   "exports": { "./tui": "./tui.js" },
-  "scripts": { "test": "node --test status.test.js" }
+  "files": ["tui.js", "status.js", "preview.js", "status.test.js"],
+  "publishConfig": { "access": "public" },
+  "dependencies": { "@opencode/plugin": "2.3.2" },
+  "scripts": {
+    "test": "node --test status.test.js",
+    "prepublishOnly": "npm test"
+  }
 }

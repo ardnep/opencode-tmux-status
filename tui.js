@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Aaradh Nepal
 import { execFile } from "node:child_process"
 import { promisify } from "node:util"
 import { Plugin } from "@opencode/plugin/tui"
