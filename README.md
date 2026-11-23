@@ -30,12 +30,12 @@ Reload your tmux config once you've made the change.
 
 ## Supported icons
 
-- 󰞌 󰔟 󱦟 󰚭 — Working (animated)
-- 󰋖 — Waiting for input or permission
-- 󰑐 — Retrying
-- 󰝥 — Done
-- 󱎘 — Failed
-- 󰏤 — Stopped
+- Working (animated hourglass)
+- Waiting for input or permission (question mark)
+- Retrying (circular arrow)
+- Done (circle)
+- Failed (cross)
+- Stopped (pause)
 
 The indicator clears when OpenCode is idle or on its home screen.
 
