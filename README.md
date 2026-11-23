@@ -27,6 +27,8 @@ Requires OpenCode V2, tmux, and a Nerd Font with Material Design icons.
    ```tmux
    set -g @catppuccin_window_number '#{?@opencode_status,#{@opencode_status},}'
    set -g @catppuccin_window_current_number '#{?@opencode_status,#{@opencode_status},}'
+   set -g @catppuccin_window_text ' #{?@opencode_title,#{@opencode_title},#W}'
+   set -g @catppuccin_window_current_text ' #{?@opencode_title,#{@opencode_title},#W}'
    ```
 
    This replaces the window number with the status icon. A terminal icon is shown when no status is set.
@@ -53,6 +55,30 @@ Requires OpenCode V2, tmux, and a Nerd Font with Material Design icons.
 - Stopped (pause)
 
 The indicator clears when OpenCode is idle or on its home screen.
+
+## Optional session titles
+
+By default, tab names remain unchanged. Enable `sessionTitle` in your plugin
+entry in `cli.json` to display the active OpenCode session's title:
+
+```json
+{
+  "plugins": [{
+    "package": "@ardnep/opencode-tmux-status",
+    "options": { "sessionTitle": true }
+  }]
+}
+```
+
+For a local install, use the plugin directory path as `package` instead.
+Titles follow session switches and renames. The Catppuccin text formats above
+read the pane-level `@opencode_title` option; other themes can use the same
+expression. The underlying tmux window name is never changed, and is shown
+again on the home screen or normal cleanup. In split windows, the active
+pane supplies the title. Control characters are removed and `#` is displayed
+as `＃` to prevent tmux formatting injection.
+
+After a forced exit, clear a stale title with `tmux set-option -pu @opencode_title`.
 
 ## Preview and tests
 
