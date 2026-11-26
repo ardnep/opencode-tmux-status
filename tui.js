@@ -3,7 +3,7 @@
 import { execFile } from "node:child_process"
 import { promisify } from "node:util"
 import { Plugin } from "@opencode/plugin/tui"
-import { createWriter, indicator, sessionState } from "./status.js"
+import { attentionKey, createWriter, indicator, sessionState } from "./status.js"
 
 const exec = promisify(execFile)
 
@@ -31,7 +31,8 @@ export default Plugin.define({
           ]).then(() => { if (!disposed) update() })
         }
       }
-      void write(indicator(sessionState(context), frame++))
+      const state = sessionState(context)
+      void write(indicator(state, frame++), attentionKey(sessionID, state))
     }
 
     // Cached reads only; this also detects route changes without private APIs.

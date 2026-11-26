@@ -35,13 +35,26 @@ export function indicator(state, frame = 0) {
 export function createWriter(run, pane) {
   let queue = Promise.resolve()
   let previous
-  return (text) => {
-    if (text === previous) return queue
-    previous = text
+  let previousAttention
+  return (text, attention = "") => {
+    const key = JSON.stringify([text, attention])
+    if (key === previous) return queue
+    previous = key
     queue = queue.then(async () => {
+      if (attention !== previousAttention) {
+        // Capture the visit counter once per new attention state, not each poll.
+        // A later tab visit advances @tab_last_visit past this snapshot.
+        await run(["set-option", "-pF", "-t", pane, "@opencode_attention",
+          attention ? "#{?#{&&:#{window_active},#{session_attached}},,#{@tab_visit_counter}}" : ""])
+        previousAttention = attention
+      }
       await run(["set-option", "-p", "-t", pane, "@opencode_status", text])
       await run(["refresh-client", "-S"])
     }).catch(() => { previous = undefined })
     return queue
   }
+}
+
+export function attentionKey(sessionID, state) {
+  return ["done", "input", "failed", "stopped"].includes(state) ? `${sessionID}:${state}` : ""
 }
